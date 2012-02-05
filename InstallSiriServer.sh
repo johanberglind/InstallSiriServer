@@ -17,6 +17,19 @@
 
 mkdir tempfolder
 cd tempfolder
+# Checks for libogg package and if it's already installed scripts moves on to libspeex
+echo "Checking if Libogg is installed"
+if [ -f /usr/local/lib/libogg.a ]
+then echo "Libogg is already installed, proceeding to next step"
+else echo "Not installed, downloading libogg"
+curl http://downloads.xiph.org/releases/ogg/libogg-1.3.0.zip > libogg-1.3.0.zip
+unzip libogg-1.3.0.zip
+cd libogg-1.3.0
+echo "Installing libogg"
+./configure
+make
+sudo make install
+fi
 # Checks for libspeex and if it's already installed the scripts moves on to checking for flac
 echo "Checking if Libspeex is installed"
 if [ -f /usr/local/lib/libspeex.a ]
@@ -51,10 +64,10 @@ cd flac-1.2.1
 make
 sudo make install
 fi
-read -p "Press Enter to Continue"
 cd ..
 cd ..
 clear
+# Downloading and installing necessary python packages if they're not already installed
 echo "Installing Python-packages"
 sudo easy_install biplist
 sudo easy_install M2Crypto
