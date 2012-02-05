@@ -18,6 +18,7 @@ cd tempfolder
 echo "--------- SiriServer Installation Script --------"
 echo "If you don't have any of the dependencies installed the script will take a while to finish"
 read -p "Expect atleast 1-2 minutes, Press [ENTER] if you're ready to continue"
+clear
 if [ "$(which curl)" != "" ]
 then echo "Curl is already installed, proceeding"
 else echo "Downloading and installing Curl"
@@ -32,6 +33,7 @@ read -p "Press [ENTER] to continue"
 cd ..
 # Checks for libogg package and if it's already installed scripts moves on to libspeex
 echo "Checking if Libogg is installed [10%--------]"
+clear
 if [ -f /usr/local/lib/libogg.a ]
 then echo "Libogg is already installed, proceeding to next step"
 else echo "Not installed, downloading libogg"
@@ -47,6 +49,7 @@ read -p "Press [ENTER] to continue"
 cd ..
 # Checks for libspeex and if it's already installed the scripts moves on to checking for flac
 echo "Checking if Libspeex is installed  [-20%--------]"
+clear
 if [ -f /usr/local/lib/libspeex.a ]
 then echo "Libspeex is already installed, proceeding to next step"
 else echo "Not installed, downloading Libspeex"
@@ -66,6 +69,7 @@ read -p "Press [ENTER] to continue"
 cd ..
 clear
 # Checks for FLAC and if it's already installed the scripts moves on
+clear
 echo "Checking for Flac…  [----50%----]"
 if [ "$(which flac)" != "" ]
 then echo "FLAC is already installed, proceeding to next step"
