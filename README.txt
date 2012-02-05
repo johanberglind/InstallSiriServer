@@ -1,6 +1,6 @@
 README - InstallSiriServer
 
-First open the termianl and cd into the directory where you've downloaded
+First open the terminal and cd into the directory where you've downloaded
 the script (In OSX you can do so by writing "cd " and then
 drag the folder into the terminal.
 To fix permissions for the script run:
