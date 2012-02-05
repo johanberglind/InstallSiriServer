@@ -38,7 +38,7 @@ echo "Download complete, unzipping"
 tar -xf flac-1.2.1.tar.gz
 clear
 echo "Installing Libflac.."
-cd flac-1.2.1.tar.gz
+cd flac-1.2.1
 ./configure --disable-asm-optimizations
 make
 sudo make install
