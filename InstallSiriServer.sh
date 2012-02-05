@@ -88,7 +88,27 @@ read -p "Press [ENTER] to continue"
 cd ..
 cd ..
 clear
-# Downloading and installing necessary python packages if they're not already installed
+# Downloading and installing necessary python packages and easy_install if they're not already installed
+if [ "$(which easy_install)" != "" ]
+then echo "easy_install is installed, proceeding"
+else echo "Downloading and installing easy_install"
+curl http://pypi.python.org/packages/2.3/s/setuptools/setuptools-0.6c11-py2.3.egg#md5=2baeac6e13d414a9d28e7ba5b5a596de > setuptools-0.6c11-py2.3.egg
+sh setuptools-0.6c11-py2.3.egg
+clear
+curl http://pypi.python.org/packages/2.4/s/setuptools/setuptools-0.6c11-py2.4.egg#md5=bd639f9b0eac4c42497034dec2ec0c2b > setuptools-0.6c11-py2.4.egg
+sh setuptools-0.6c11-py2.4.egg
+clear
+curl http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c11-py2.5.egg#md5=64c94f3bf7a72a13ec83e0b24f2749b2 > setuptools-0.6c11-py2.5.egg
+sh setuptools-0.6c11-py2.5.egg
+clear
+curl http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c11-py2.6.egg#md5=bfa92100bd772d5a213eedd356d64086 > setuptools-0.6c11-py2.6.egg
+sh setuptools-0.6c11-py2.6.egg
+clear
+curl http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11-py2.7.egg#md5=fe1f997bc722265116870bc7919059ea > setuptools-0.6c11-py2.7.egg
+sh setuptools-0.6c11-py2.7.egg
+clear
+fi
+clear
 echo "Installing Python-packages [------70%--]"
 sudo easy_install biplist
 sudo easy_install M2Crypto
