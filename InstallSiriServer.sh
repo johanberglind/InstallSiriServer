@@ -32,7 +32,7 @@ sudo make install
 cd ..
 clear
 echo "Downloading Libflac..."
-curl http://sourceforge.net/projects/flac/files/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz/download -O flac-1.2.1.tar.gz > flac-1.2.1.tar.gz
+curl -L http://sourceforge.net/projects/flac/files/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz/download > flac-1.2.1.tar.gz
 clear
 echo "Download complete, unzipping"
 tar -xf flac-1.2.1.tar.gz
