@@ -116,7 +116,7 @@ clear
 echo "Python installation complete"
 read -p "Press [ENTER] to continue"
 echo "Downloading SiriServer from Github... [---------80%-]"
-curl -L https://github.com/Eichhoernchen/SiriServer/tarball/master >> siriserver.tar.gz
+curl -L https://github.com/Eichhoernchen/SiriServer/tarball/master > siriserver.tar.gz
 clear
 echo "Unzipping"
 tar -xf siriserver.tar.gz && cd Eich*
