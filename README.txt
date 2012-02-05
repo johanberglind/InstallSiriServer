@@ -1,5 +1,7 @@
 README - InstallSiriServer
 
+REMEBER: EXPERIMENTAL CODE AT THE MOMENT
+
 First open the terminal and cd into the directory where you've downloaded
 the script (In OSX you can do so by writing "cd " and then
 drag the folder into the terminal.
