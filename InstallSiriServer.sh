@@ -28,9 +28,9 @@ cd curl-7.24.0
 ./configure
 make
 sudo make install
+cd ..
 fi
 read -p "Press [ENTER] to continue"
-cd ..
 # Checks for libogg package and if it's already installed scripts moves on to libspeex
 echo "Checking if Libogg is installed [10%--------]"
 clear
@@ -44,9 +44,9 @@ echo "Installing libogg"
 ./configure
 make
 sudo make install
+cd ..
 fi
 read -p "Press [ENTER] to continue"
-cd ..
 # Checks for libspeex and if it's already installed the scripts moves on to checking for flac
 echo "Checking if Libspeex is installed  [-20%--------]"
 clear
@@ -64,9 +64,9 @@ echo "Installing Speex... [--30%------]"
 ./configure
 make
 sudo make install
+cd ..
 fi
 read -p "Press [ENTER] to continue"
-cd ..
 clear
 # Checks for FLAC and if it's already installed the scripts moves on
 clear
@@ -83,10 +83,9 @@ cd flac-1.2.1
 ./configure --disable-asm-optimizations
 make
 sudo make install
+cd ..
 fi
 read -p "Press [ENTER] to continue"
-cd ..
-cd ..
 clear
 # Downloading and installing necessary python packages and easy_install if they're not already installed
 if [ "$(which easy_install)" != "" ]
