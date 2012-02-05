@@ -17,7 +17,11 @@
 
 mkdir tempfolder
 cd tempfolder
-echo "Downloading Speex..."
+# Checks for libspeex and if it's already installed the scripts moves on to checking for flac
+echo "Checking if Libspeex is installed"
+if [ -f /usr/local/lib/libspeex.a ]
+then echo "Libspeex is already installed, proceeding to next step"
+else echo "Not installed, downloading Libspeex"
 curl http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz > speex-1.2rc1.tar.gz
 clear
 echo "Download complete, unzipping"
@@ -28,7 +32,8 @@ clear
 echo "Installing Speex..."
 ./configure
 make
-sudo make install 
+sudo make install
+fi
 cd ..
 clear
 # Checks for FLAC and if it's already installed the scripts moves on
