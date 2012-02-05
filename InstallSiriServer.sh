@@ -46,6 +46,7 @@ cd flac-1.2.1
 make
 sudo make install
 fi
+read -p "Press Enter to Continue"
 cd ..
 cd ..
 clear
@@ -82,5 +83,5 @@ echo "Starting Siriserver..."
 echo "Now go ahead and enable Siri in the general-tab in the Settings-app"
 echo "If everything went smooth, you should be up and running"
 echo "Try saying: Hello Siri"
-echo "Press CTRL+X to STOP"
+echo "Press CTRL+C to STOP"
 sudo python siriServer.py
