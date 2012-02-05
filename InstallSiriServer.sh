@@ -1,5 +1,5 @@
 #!/bin/bash
-# 
+
 # This script is designed for OSX but will probably run on Linux aswell
 # if you have the python-setuptools install (apt-get install otherwise)
 #
@@ -31,8 +31,11 @@ make
 sudo make install 
 cd ..
 clear
-echo "Downloading Libflac..."
-curl -L http://sourceforge.net/projects/flac/files/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz/download > flac-1.2.1.tar.gz
+# Checks for FLAC and if it's already installed the scripts moves on
+echo "Checking for Flac..."
+if [ "$(which flac)" != "" ]
+then echo "FLAC is already installed, proceeding to next step"
+else curl -L http://sourceforge.net/projects/flac/files/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz/download > flac-1.2.1.tar.gz
 clear
 echo "Download complete, unzipping"
 tar -xf flac-1.2.1.tar.gz
@@ -42,6 +45,7 @@ cd flac-1.2.1
 ./configure --disable-asm-optimizations
 make
 sudo make install
+fi
 cd ..
 cd ..
 clear
@@ -80,6 +84,3 @@ echo "If everything went smooth, you should be up and running"
 echo "Try saying: Hello Siri"
 echo "Press CTRL+X to STOP"
 sudo python siriServer.py
-
-
-
