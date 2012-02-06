@@ -13,8 +13,8 @@
 # I am not the author nor the creator of the server
 #
 
-mkdir tempfolder
-cd tempfolder
+mkdir serverfolder
+cd serverfolder
 echo "--------- SiriServer Installation Script --------"
 echo "If you don't have any of the dependencies installed the script will take a while to finish"
 read -p "Expect atleast 1-2 minutes, Press [ENTER] if you're ready to continue"
