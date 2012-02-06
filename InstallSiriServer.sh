@@ -118,7 +118,8 @@ echo "Downloading SiriServer from Github... [---------80%-]"
 curl -L https://github.com/Eichhoernchen/SiriServer/tarball/master > siriserver.tar.gz
 clear
 echo "Unzipping"
-tar -xf siriserver.tar.gz && cd Eich*
+tar -xf siriserver.tar.gz 
+cd Eich*
 cd gen_certs/
 clear
 echo "Time to generate SSL-certs, what is the IP of the Siriserver (this computer)? [----------90%]"
