@@ -28,3 +28,5 @@ sudo python siriServer.py
 Check out the Eichhoernchen project at:
 https://github.com/Eichhoernchen/SiriServer
  
+Video walkthrough:
+http://www.youtube.com/watch?v=ZzkJEGsyj-A
