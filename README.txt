@@ -14,6 +14,11 @@ sudo ./InstallSiriServer.sh
 
 64-bit version (remove the parameter --disable-asm-optimizations if you're running 32-bit)
 
+If you've already installed the server and dependencies and want to start it up
+again, just go ahead an cd into the Eichhoernchen-server directory and type:
+
+sudo python siriServer.py
+
 Check out the Eichhoernchen project at:
 https://github.com/Eichhoernchen/SiriServer
  
