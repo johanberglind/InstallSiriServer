@@ -2,6 +2,12 @@ README - InstallSiriServer
 
 REMEBER: EXPERIMENTAL CODE AT THE MOMENT
 
+REQUIREMENT: You need a C compiler installed! On most Linux Distros this comes out of the box.
+On Mac OSX you can either install Xcode or install this:
+https://github.com/kennethreitz/osx-gcc-installer
+
+Everything else the script handles. Good luck
+
 First open the terminal and cd into the directory where you've downloaded
 the script (In Debian and OSX you can do so by writing "cd " and then
 drag the folder into the terminal.
