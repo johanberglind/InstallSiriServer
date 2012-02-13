@@ -8,12 +8,22 @@ https://github.com/kennethreitz/osx-gcc-installer
 
 Everything else the script handles. Good luck
 
+NOTE: I've just added a small menuscript that acts as a controlpanel with 
+both updates aswell as installation. Configure it using the methods below!
+
 First open the terminal and cd into the directory where you've downloaded
 the script (In Debian and OSX you can do so by writing "cd " and then
 drag the folder into the terminal.
 To fix permissions for the script run:
 
 chmod +x InstallSiriServer.sh
+
+FOR THE CONTROLPANEL:
+
+chmod +x menu.sh
+# and run the Menu.sh by:
+sudo ./menu.sh
+
 After that to start the script run:
 
 sudo ./InstallSiriServer.sh
