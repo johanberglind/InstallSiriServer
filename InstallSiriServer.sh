@@ -31,6 +31,21 @@ sudo make install
 cd ..
 fi
 read -p "Press [ENTER] to continue"
+clear
+if [ "$(which openssl)" != "" ]
+then echo "OpenSSL is already installed, proceeding"
+else echo "Downloading and installing OpenSSL"
+curl http://www.openssl.org/source/openssl-1.0.0g.tar.gz > openssl-1.0.0g.tar.gz
+tar -xf openssl-1.0.0g.tar.gz
+cd openssl-1.0.0g
+./config
+make
+make test
+sudo make install
+cd ..
+fi
+read -p "Press [ENTER] to continue"
+clear
 # Checks for libogg package and if it's already installed scripts moves on to libspeex
 echo "Checking if Libogg is installed [10%--------]"
 clear
