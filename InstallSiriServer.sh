@@ -40,8 +40,8 @@ else
 
   echo "Downloading & unpacking Git's latest stable release: git-$LSR_NUM"
   curl http://kernel.org/pub/software/scm/git/git-$LSR_NUM.tar.gz | tar -xz
-  tar xzf git-1.6.0.tar.gz
-  cd git-1.6.0
+  tar xzf git-$LSR_NUM.tar.gz
+  cd git-$LSR_NUM
   ./configure --prefix=/usr/local
   make all
   sudo make install
