@@ -1,8 +1,4 @@
 #!/bin/bash
-
-#
-# 64-bit version (if you're running 32-bit delete the "--disable-asm-opt.."
-#
 # This script will download all necessary dependencies (and curl)
 # both for audio handling and for python
 # Then it will proceed to fetch the SiriServer from 
@@ -13,8 +9,11 @@
 # I am not the author nor the creator of the server
 #
 
-mkdir serverfolder
-cd serverfolder
+## Checking wether 64 or 32 bit system to use for flac compilation
+VERSION=`uname -a | grep "x86_64"`
+
+mkdir tmp
+cd tmp
 echo "--------- SiriServer Installation Script --------"
 echo "If you don't have any of the dependencies installed the script will take a while to finish"
 read -p "Expect atleast 1-2 minutes, Press [ENTER] if you're ready to continue"
@@ -48,7 +47,6 @@ read -p "Press [ENTER] to continue"
 clear
 # Checks for libogg package and if it's already installed scripts moves on to libspeex
 echo "Checking if Libogg is installed [10%--------]"
-clear
 if [ -f /usr/local/lib/libogg.a ]
 then echo "Libogg is already installed, proceeding to next step"
 else echo "Not installed, downloading libogg"
@@ -62,9 +60,9 @@ sudo make install
 cd ..
 fi
 read -p "Press [ENTER] to continue"
+clear
 # Checks for libspeex and if it's already installed the scripts moves on to checking for flac
 echo "Checking if Libspeex is installed  [-20%--------]"
-clear
 if [ -f /usr/local/lib/libspeex.a ]
 then echo "Libspeex is already installed, proceeding to next step"
 else echo "Not installed, downloading Libspeex"
@@ -84,7 +82,6 @@ fi
 read -p "Press [ENTER] to continue"
 clear
 # Checks for FLAC and if it's already installed the scripts moves on
-clear
 echo "Checking for Flac…  [----50%----]"
 if [ "$(which flac)" != "" ]
 then echo "FLAC is already installed, proceeding to next step"
@@ -95,14 +92,34 @@ tar -xf flac-1.2.1.tar.gz
 clear
 echo "Installing Libflac.. [-----60%---]"
 cd flac-1.2.1
-./configure --disable-asm-optimizations
+if [ -n "$VERSION" ]; 
+then
+  echo "64 bit system"
+  ./configure --disable-asm-optimizations
+else
+  echo "32 bit system, not using \"--disable-asm-optimizations\""
+  ./configure
+fi
 make
 sudo make install
 cd ..
 fi
 read -p "Press [ENTER] to continue"
 clear
+echo -e "Would you like to delete the \"temporary items\" folder? [y/n]"
+read answer
+if [ "$answer" == "y" ];
+then 
+  echo "Deleting temporary items..."
+  cd ../
+  sudo rm -rf tmp
+else
+  echo "Temporary items left in /tmp folder"
+fi
+read -p "Press [ENTER] to continue"
+clear
 # Downloading and installing necessary python packages and easy_install if they're not already installed
+echo "Installing easy_install"
 if [ "$(which easy_install)" != "" ]
 then echo "easy_install is installed, proceeding"
 else echo "Downloading and installing easy_install"
@@ -129,12 +146,23 @@ sudo easy_install M2Crypto
 clear
 echo "Python installation complete"
 read -p "Press [ENTER] to continue"
-echo "Downloading SiriServer from Github... [---------80%-]"
-curl -L https://github.com/Eichhoernchen/SiriServer/tarball/master > siriserver.tar.gz
+echo -e "Would you like to install all the plugin dependencies? [y/n] "
+read answer
+if [ "$answer" == "y" ];
+then 
+  echo "Installing jsonrpclib ... "
+  sudo easy_install jsonrpclib
+  echo "Installing wordnik ... "
+  sudo easy_install wordnik
+else
+  echo "Note that when not installing those dependencies, some plugins might not work as expected"
+fi
+read -p "Press [ENTER] to continue"
 clear
-echo "Unzipping"
-tar -xf siriserver.tar.gz 
-cd Eich*
+echo "Cloning SiriServer from Github... [---------80%-]"
+git clone git://github.com/Eichhoernchen/SiriServer.git
+clear
+cd Siri*
 cd gen_certs/
 clear
 echo "Time to generate SSL-certs, what is the IP of the Siriserver (this computer)? [----------90%]"
@@ -151,7 +179,7 @@ read -p "Press [ENTER] to continue to the next step when you've installed it"
 clear
 echo "(NON 4S ONLY) Go ahead and download Spire from Cydia"
 echo "That should take a while, but once you're done enter your IP in"
-echo "the settings page of Spire: $IP"
+echo "the settings page of Spire: https://$IP"
 read -p "Press [ENTER] to continue to the next step  [100%]"
 clear
 echo "Starting Siriserver..."
