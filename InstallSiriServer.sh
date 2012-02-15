@@ -18,7 +18,7 @@ echo "--------- SiriServer Installation Script --------"
 echo "If you don't have any of the dependencies installed the script will take a while to finish"
 read -p "Expect atleast 1-2 minutes, Press [ENTER] if you're ready to continue"
 clear
-if [ "$(which curl)" != "" ] then 
+if [ "$(which curl)" != "" ]; then 
   echo "Curl is already installed, proceeding"
 else 
   echo "Downloading and installing Curl"
@@ -32,7 +32,7 @@ else
 fi
 read -p "Press [ENTER] to continue"
 clear
-if [ "$(which git)" != "" ] then 
+if [ "$(which git)" != "" ]; then 
   echo "Git is already installed, proceeding"
 else
   echo "Scraping Git's latest stable release version number off the home page"
@@ -49,7 +49,7 @@ else
 fi
 read -p "Press [ENTER] to continue"
 clear
-if [ "$(which openssl)" != "" ] then 
+if [ "$(which openssl)" != "" ]; then 
   echo "OpenSSL is already installed, proceeding"
 else 
   echo "Downloading and installing OpenSSL"
@@ -66,7 +66,7 @@ read -p "Press [ENTER] to continue"
 clear
 # Checks for libogg package and if it's already installed scripts moves on to libspeex
 echo "Checking if Libogg is installed [10%--------]"
-if [ -f /usr/local/lib/libogg.a ] then 
+if [ -f /usr/local/lib/libogg.a ]; then 
   echo "Libogg is already installed, proceeding to next step"
 else 
   echo "Not installed, downloading libogg"
@@ -83,7 +83,7 @@ read -p "Press [ENTER] to continue"
 clear
 # Checks for libspeex and if it's already installed the scripts moves on to checking for flac
 echo "Checking if Libspeex is installed  [-20%--------]"
-if [ -f /usr/local/lib/libspeex.a ] then 
+if [ -f /usr/local/lib/libspeex.a ]; then 
   echo "Libspeex is already installed, proceeding to next step"
 else 
   echo "Not installed, downloading Libspeex"
@@ -104,7 +104,7 @@ read -p "Press [ENTER] to continue"
 clear
 # Checks for FLAC and if it's already installed the scripts moves on
 echo "Checking for Flac…  [----50%----]"
-if [ "$(which flac)" != "" ] then 
+if [ "$(which flac)" != "" ]; then 
   echo "FLAC is already installed, proceeding to next step"
 else 
   curl -L http://sourceforge.net/projects/flac/files/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz/download > flac-1.2.1.tar.gz
@@ -114,7 +114,7 @@ else
   clear
   echo "Installing Libflac.. [-----60%---]"
   cd flac-1.2.1
-  if [ -n "$VERSION" ];  then
+  if [ -n "$VERSION" ]; then
     echo "64 bit system"
     ./configure --disable-asm-optimizations
   else
@@ -129,7 +129,7 @@ read -p "Press [ENTER] to continue"
 clear
 echo -e "Would you like to delete the \"temporary items\" folder? [y/n]"
 read answer
-if [ "$answer" == "y" ];  then 
+if [ "$answer" == "y" ]; then 
   echo "Deleting temporary items..."
   cd ../
   sudo rm -rf tmp
@@ -140,7 +140,7 @@ read -p "Press [ENTER] to continue"
 clear
 # Downloading and installing necessary python packages and easy_install if they're not already installed
 echo "Installing easy_install"
-if [ "$(which easy_install)" != "" ] then 
+if [ "$(which easy_install)" != "" ]; then 
   echo "easy_install is installed, proceeding"
 else 
   echo "Downloading and installing easy_install"
