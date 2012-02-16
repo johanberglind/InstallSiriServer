@@ -108,7 +108,7 @@ certificate () {
   fi
   cd $DIR/gen_certs/
   clear
-  IPGUESS=`ifconfig |grep "inet addr" |awk '{print $2}' |awk -F: '{print $2}'`
+  IPGUESS=`ifconfig |grep "inet addr.*Bcast" |awk -F: '{print $2}' | awk '{print $1}'`
   echo "Time to generate SSL-certs, what is the IP of the Siriserver (this computer) [possibly $IPGUESS]?"
   read IP
   sudo ./gen_certs.sh $IP
@@ -127,10 +127,10 @@ update () {
     DIR=$NEW_DIR
   fi
   cd $DIR
-  PID=`ps -ef | awk '/siriServer/ { print $2 }'`
+  PID=`ps -ef | awk '/[s]iriServer/ { print $2 }'`
   if [ "$PID" != "" ]; then 
     echo "Killing SiriServer..."
-    kill $PID
+    sudo kill $PID
   fi
   echo "Updating ..."
   git pull
