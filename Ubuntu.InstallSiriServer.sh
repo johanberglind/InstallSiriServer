@@ -128,8 +128,8 @@ startup_script () {
   fi
   cd $DIR/startupScripts/
   echo "Copying script to /etc/init.d/siriserver"
-  sed "s/\/path\/to\/siriServer\/folder\//$DIR/" siriserver > siriserver.new
-  sudo mv siriserver.new /etc/init.d/siriserver
+  sudo sed -i.old "s/\/path\/to\/siriServer\/folder\//$(echo $DIR | sed -e 's/\//\\\//g')/" siriserver
+  sudo mv siriserver /etc/init.d/siriserver
   sudo chmod a+x /etc/init.d/siriserver
   echo "Updating rc.d"
   sudo update-rc.d siriserver dafults
