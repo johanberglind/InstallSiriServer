@@ -7,7 +7,6 @@ check_Git () {
     if ! which git > /dev/null; then
         echo "Installing git"
         sudo apt-get -y install git
-        read -p "Press [ENTER] to continue"
         clear
     else
         echo "Git already installed"
@@ -19,7 +18,6 @@ check_Easy () {
     if ! which easy_install > /dev/null; then
         echo "Installing easy_install"
         sudo apt-get -y install python-setuptools
-        read -p "Press [ENTER] to continue"
         clear
     else
         echo "easy_install already installed"
@@ -33,7 +31,6 @@ check_libspeex () {
   else 
     echo "Installing Libspeex"
     sudo apt-get -y install libspeex1 
-    read -p "Press [ENTER] to continue"
     clear
   fi
 }
@@ -45,7 +42,6 @@ check_flac () {
   else 
     echo "Installing flac"
     sudo apt-get -y install libflac8 
-    read -p "Press [ENTER] to continue"
     clear
   fi
 }
@@ -57,7 +53,6 @@ check_biplist () {
   else 
     echo "Installing biplist"
     sudo easy_install biplist
-    read -p "Press [ENTER] to continue"
     clear
   fi
 }
@@ -68,7 +63,6 @@ check_M2Crypto () {
   else 
     echo "Installing M2Crypto"
     sudo apt-get install python-M2Crypto
-    read -p "Press [ENTER] to continue"
     clear
   fi
 }
@@ -80,7 +74,6 @@ check_jsonrpclib () {
   else 
     echo "Installing jsonrpclib ... "
     sudo easy_install jsonrpclib
-    read -p "Press [ENTER] to continue"
     clear
   fi
 }
@@ -92,13 +85,12 @@ check_wordnik () {
   else 
     echo "Installing wordnik ... "
     sudo easy_install wordnik
-    read -p "Press [ENTER] to continue"
     clear
   fi
 }
 
 clone () {
-  if [ $DIR == "" ]; then 
+  if [ $DIR = "" ]; then 
     echo -e "Where would you like to install SiriServer? (eg.: '/home/')"
     read NEW_DIR
     $DIR = $NEW_DIR
@@ -109,14 +101,14 @@ clone () {
 }
 
 certificate () {
-  if [ $DIR == "" ]; then 
+  if [ $DIR = "" ]; then 
     echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
     read NEW_DIR
     $DIR = $NEW_DIR
   fi
   cd gen_certs/
   clear
-  IPGUESS = ifconfig |grep "inet addr" |awk '{print $2}' |awk -F: '{print $2}'
+  IPGUESS = `ifconfig |grep "inet addr" |awk '{print $2}' |awk -F: '{print $2}'`
   echo "Time to generate SSL-certs, what is the IP of the Siriserver (this computer) [possibly $IPGUESS]? [----------90%]"
   read IP
   sudo ./gen_certs.sh $IP
