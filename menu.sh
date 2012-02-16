@@ -41,6 +41,7 @@ tput bold
 read -p "Enter your choice (1-5): " CHOICE
 if [ $CHOICE -eq 1 ]
 then sudo sh ./InstallSiriServer.sh
+sudo sh ./menu.sh
 fi
 if [ $CHOICE -eq 2 ]
 then echo Updating...
