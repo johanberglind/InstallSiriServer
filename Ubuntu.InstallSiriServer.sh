@@ -180,7 +180,8 @@ SiriServer_Menu (){
      
      "
   if [ "$DIR" != "" ]; then 
-    echo "Current directory is \"$DIR\"\n"
+    echo "Current directory is \"$DIR\""
+    echo 
   fi
 
     show_Menu () {
