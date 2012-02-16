@@ -1,103 +1,222 @@
 #!/bin/bash
-# This script will download all necessary dependencies (and curl)
-# both for audio handling and for python
-# Then it will proceed to fetch the SiriServer from 
-# Github and install it, it will then proceed
-# and generate SSL-certs for both the server and client
-# Remeber to run Script as root as the installation will fail otherwise
-# Author of installation script johanberglind
-# I am not the author nor the creator of the server
-#
 
+DIR = ""
 
-echo "--------- SiriServer Installation Script --------"
-echo "If you don't have any of the dependencies installed the script will take a while to finish"
-read -p "Expect atleast 1-2 minutes, Press [ENTER] if you're ready to continue"
-clear
-if [ "$(which git)" != "" ]; then 
-  echo "Git is already installed, proceeding"
-else
-  echo "Installing git-core package"
-  sudo apt-get install git-core
-fi
-read -p "Press [ENTER] to continue"
-clear
-# Checks for libspeex and if it's already installed the scripts moves on to checking for flac
-echo "Checking if Libspeex is installed  [-20%--------]"
-if [ "$(locate libspeex)" != "" ]; then 
-  echo "Libspeex is already installed, proceeding to next step"
-else 
-  echo "Installing Libspeex"
-  sudo apt-get install libspeex1 
-fi
-read -p "Press [ENTER] to continue"
-clear
-# Checks for FLAC and if it's already installed the scripts moves on
-echo "Checking for Flac…  [----50%----]"
-if [ "$(locate flac)" != "" ]; then 
-  echo "FLAC is already installed, proceeding to next step"
-else 
-  echo "Installing flac"
-  sudo apt-get install libflac8 
-fi
-read -p "Press [ENTER] to continue"
-clear
-# Downloading and installing necessary python packages and easy_install if they're not already installed
-echo "Installing easy_install"
-if [ "$(which easy_install)" != "" ]; then 
-  echo "easy_install is installed, proceeding"
-else 
-  echo "Installing python-setuptools"
-  sudo apt-get install python-setuptools
-fi
-clear
-echo "Installing Python-packages [------70%--]"
-echo "Installing biplist"
-sudo easy_install biplist
-read -p "Press [ENTER] to continue"
-echo "Installing M2Crypto"
-sudo apt-get install python-M2Crypto
-clear
-echo "Python installation complete"
-read -p "Press [ENTER] to continue"
-echo -e "Would you like to install all the plugin dependencies? [y/n] "
-read answer
-if [ "$answer" == "y" ]; then 
-  echo "Installing jsonrpclib ... "
-  sudo easy_install jsonrpclib
-  echo "Installing wordnik ... "
-  sudo easy_install wordnik
-else
-  echo "Note that when not installing those dependencies, some plugins might not work as expected"
-fi
-read -p "Press [ENTER] to continue"
-clear
-echo "Cloning SiriServer from Github... [---------80%-]"
-git clone git://github.com/Eichhoernchen/SiriServer.git
-clear
-cd Siri*
-cd gen_certs/
-clear
-echo "Time to generate SSL-certs, what is the IP of the Siriserver (this computer)? [----------90%]"
-read IP
-./gen_certs.sh $IP
-clear
-cd ..
-cp ca.pem ~/Desktop/
-clear
-echo "Ok, now you need to transfer the ca.pem file to your iOS device"
-echo "I've copied the file to your desktop for easy access"
-echo "The easiest way is to mail it to yourself and open it on your iOS device"
-read -p "Press [ENTER] to continue to the next step when you've installed it"
-clear
-echo "(NON 4S ONLY) Go ahead and download Spire from Cydia"
-echo "That should take a while, but once you're done enter your IP in"
-echo "the settings page of Spire: https://$IP"
-read -p "Press [ENTER] to continue to the next step  [100%]"
-clear
-echo "Starting Siriserver..."
-echo "Now go ahead and enable Siri in the general-tab in the Settings-app"
-echo "If everything went smooth, you should be up and running"
-echo "Try saying: Hello Siri"
-echo "Press CTRL+C to STOP"
-sudo python siriServer.py
+check_Git () {
+    echo "Checking git"
+    if ! which git > /dev/null; then
+        echo "Installing git"
+        sudo apt-get -y install git
+        read -p "Press [ENTER] to continue"
+        clear
+    else
+        echo "Git already installed"
+    fi
+}
+
+check_Easy () {
+    echo "Checking easy_install"
+    if ! which easy_install > /dev/null; then
+        echo "Installing easy_install"
+        sudo apt-get -y install python-setuptools
+        read -p "Press [ENTER] to continue"
+        clear
+    else
+        echo "easy_install already installed"
+    fi
+}
+
+check_libspeex () {
+  echo "Checking Libspeex"
+  if [ "$(locate libspeex)" != "" ]; then 
+    echo "Libspeex is already installed, proceeding to next step"
+  else 
+    echo "Installing Libspeex"
+    sudo apt-get -y install libspeex1 
+    read -p "Press [ENTER] to continue"
+    clear
+  fi
+}
+
+check_flac () {
+  echo "Checking Flac"
+  if [ "$(locate flac)" != "" ]; then 
+    echo "FLAC is already installed, proceeding to next step"
+  else 
+    echo "Installing flac"
+    sudo apt-get -y install libflac8 
+    read -p "Press [ENTER] to continue"
+    clear
+  fi
+}
+
+check_biplist () {
+  echo "Checking biplist"
+  if [ "$(locate biplist)" != "" ]; then 
+    echo "biplist is already installed, proceeding to next step"
+  else 
+    echo "Installing biplist"
+    sudo easy_install biplist
+    read -p "Press [ENTER] to continue"
+    clear
+  fi
+}
+check_M2Crypto () {
+  echo "Checking M2Crypto"
+  if [ "$(locate M2Crypto)" != "" ]; then 
+    echo "M2Crypto is already installed, proceeding to next step"
+  else 
+    echo "Installing M2Crypto"
+    sudo apt-get install python-M2Crypto
+    read -p "Press [ENTER] to continue"
+    clear
+  fi
+}
+
+check_jsonrpclib () {
+  echo "Checking jsonrpclib"
+  if [ "$(locate jsonrpclib)" != "" ]; then 
+    echo "jsonrpclib is already installed, proceeding to next step"
+  else 
+    echo "Installing jsonrpclib ... "
+    sudo easy_install jsonrpclib
+    read -p "Press [ENTER] to continue"
+    clear
+  fi
+}
+
+check_wordnik () {
+  echo "Checking wordnik"
+  if [ "$(locate wordnik)" != "" ]; then 
+    echo "wordnik is already installed, proceeding to next step"
+  else 
+    echo "Installing wordnik ... "
+    sudo easy_install wordnik
+    read -p "Press [ENTER] to continue"
+    clear
+  fi
+}
+
+clone () {
+  if [ $DIR == "" ]; then 
+    echo -e "Where would you like to install SiriServer? (eg.: '/home/')"
+    read NEW_DIR
+    $DIR = $NEW_DIR
+  fi
+  echo "Cloning SiriServer from Github... "
+  git clone git://github.com/Eichhoernchen/SiriServer.git $DIR
+  clear
+}
+
+certificate () {
+  if [ $DIR == "" ]; then 
+    echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
+    read NEW_DIR
+    $DIR = $NEW_DIR
+  fi
+  cd gen_certs/
+  clear
+  IPGUESS = ifconfig |grep "inet addr" |awk '{print $2}' |awk -F: '{print $2}'
+  echo "Time to generate SSL-certs, what is the IP of the Siriserver (this computer) [possibly $IPGUESS]? [----------90%]"
+  read IP
+  sudo ./gen_certs.sh $IP
+  clear
+  echo "Certificate generated, now you need to transfer the ca.pem file to your iOS device"
+  echo "The easiest way is to email it to yourself and open it on your iOS device"
+  echo "The settings page on Spire should now use this url: https://$IP"
+  read -p "Press [ENTER] to continue to the next step when you've installed it"
+  clear
+}
+
+pid () {
+  PID = `ps -ef | awk '/siriServer/ { print $2 }'`
+  echo PID
+}
+
+### PRESENT MENU ###
+SiriServer_Menu (){
+    
+    clear
+    echo "
+    ============================================================================
+    ==      =====================      =========================================
+    =  ====  ===================  ====  ========================================
+    =  ====  ===================  ====  ========================================
+    ==  =======  ==  =   ===  ===  ========   ===  =   ===  =  ===   ===  =   ==
+    ====  =========    =  =========  =====  =  ==    =  ==  =  ==  =  ==    =  =
+    ======  ===  ==  =======  =======  ===     ==  ========   ===     ==  ======
+    =  ====  ==  ==  =======  ==  ====  ==  =====  ========   ===  =====  ======
+    =  ====  ==  ==  =======  ==  ====  ==  =  ==  ========= ====  =  ==  ======
+    ==      ===  ==  =======  ===      ====   ===  ========= =====   ===  ======
+    ============================================================================"
+
+    show_Menu () {
+        echo "Make a choice to see info or install these apps..."
+
+        echo "1. Install SiriServer"
+        echo "2. Install plugin dependencies"
+        echo "3. Update SiriServer"
+        echo "4. Generate certificates"
+        echo 
+        echo 
+        echo "Q. Quit"
+
+        read SELECT
+
+        case "$SELECT" in
+
+            # Install SiriServer
+            1)
+                check_Git
+                check_Easy
+                check_libspeex
+                check_flac
+                check_biplist
+                check_M2Crypto
+                echo -e "Would you like to install all the plugin dependencies? [y/n] "
+                read answer
+                if [ "$answer" == "y" ]; then 
+                  check_wordnik
+                  check_jsonrpclib
+                else
+                  echo "Note that when not installing those dependencies, some plugins might not work as expected"
+                  read -p "Press [ENTER] to continue"
+                fi
+                clear
+                clone
+                certificate
+                ;;
+                
+            # Install plugin dependencies
+            2)
+                check_wordnik
+                check_jsonrpclib
+                ;;
+
+            # Update SiriServer
+            3)
+                pid
+                ;;
+
+            # Generate certificate
+            4)
+                certificate
+                ;;
+
+            [Qq]) exit ;;
+
+            *)
+                echo "Please make a selection (e.g. 1)"
+                show_Menu
+                ;;
+        esac
+
+    # give time to read output from above installprocess before returning to menu
+    echo 
+    read -sn 1 -p "Press a key to continue"
+    SiriServer_Menu
+    }
+    show_Menu
+}
+
+SiriServer_Menu
