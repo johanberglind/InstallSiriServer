@@ -132,7 +132,7 @@ startup_script () {
   sudo mv siriserver /etc/init.d/siriserver
   sudo chmod a+x /etc/init.d/siriserver
   echo "Updating rc.d"
-  sudo update-rc.d siriserver dafults
+  sudo update-rc.d siriserver defaults
 }
 
 edit_conf () {
