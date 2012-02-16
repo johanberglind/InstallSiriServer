@@ -108,7 +108,7 @@ certificate () {
   fi
   cd $DIR/gen_certs/
   clear
-  IPGUESS=`ifconfig |grep "inet addr.*Bcast" |awk -F: '{print $2}' | awk '{print $1}'`
+  IPGUESS=`hostname -I | awk '{print $1}'`
   echo "Time to generate SSL-certs, what is the IP of the Siriserver (this computer) [possibly $IPGUESS]?"
   read IP
   sudo ./gen_certs.sh $IP
