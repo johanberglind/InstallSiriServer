@@ -74,6 +74,7 @@ check_jsonrpclib () {
   else 
     echo "Installing jsonrpclib ... "
     sudo easy_install jsonrpclib
+    wait
     clear
   fi
 }
@@ -85,6 +86,7 @@ check_wordnik () {
   else 
     echo "Installing wordnik ... "
     sudo easy_install wordnik
+    wait
     clear
   fi
 }
