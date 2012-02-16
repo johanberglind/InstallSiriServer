@@ -6,7 +6,7 @@ check_Git () {
     echo "Checking git"
     if ! which git > /dev/null; then
         echo "Installing git"
-        sudo apt-get -y install git
+        sudo apt-get -y install git git-core
         clear
     else
         echo "Git already installed"
