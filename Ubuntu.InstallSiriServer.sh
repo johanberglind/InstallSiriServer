@@ -120,6 +120,15 @@ certificate () {
   clear
 }
 
+edit_conf () {
+  if [ "$DIR" == "" ]; then 
+    echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
+    read NEW_DIR
+    DIR=$NEW_DIR
+  fi
+  editor $DIR/apiKeys.conf
+}
+
 update () {
   if [ "$DIR" == "" ]; then 
     echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
@@ -162,6 +171,7 @@ SiriServer_Menu (){
         echo "2. Install plugin dependencies"
         echo "3. Update SiriServer (experimental)"
         echo "4. Generate certificates"
+        echo "5. Edit API's"
         echo 
         echo 
         echo "Q. Quit"
@@ -189,6 +199,16 @@ SiriServer_Menu (){
                   clear
                 fi
                 clone
+                echo -e "Would you like to put your API keys now? [y/n] "
+                read answer
+                if [ "$answer" == "y" ]; then 
+                  edit_conf
+                else
+                  echo "This can be done later by editing the apiKeys.conf file in your siriServer folder"
+                  read -p "Press [ENTER] to continue"
+                  clear
+                fi
+                
                 certificate
                 ;;
                 
@@ -207,6 +227,12 @@ SiriServer_Menu (){
             4)
                 certificate
                 ;;
+
+            # Edit apiKeys.conf file
+            5)
+                edit_conf
+                ;;
+
 
             [Qq]) exit ;;
 
