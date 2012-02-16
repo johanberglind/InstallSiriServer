@@ -1,10 +1,16 @@
 #!/bin/bash
 
-# Menu script for the InstallSiriServer aswell as an updater
+# Menu script for the InstallSiriServer
 # By johanberglind, it uses the update.sh script for updating from the
 # Eichhoernchens Siriserver project
 
 clear
+tput setaf 2
+if [ "$(whoami)" != "root" ]
+then echo "NOTE: You're not running this as root, this will likely cause problems"
+echo "Rerun with sudo ./menu.sh"
+fi
+tput sgr0
 tput cup 3 15
 tput setaf 3
 echo "InstallSiriServer controlpanel v1.0"
@@ -23,12 +29,16 @@ echo "3. Generate SSL-certificates"
 tput sgr0
 tput cup 8 15
 tput setaf 1
-echo "4. Exit"
+echo "4. Start SiriServer"
+tput sgr0
+tput cup 9 15
+tput setaf 1
+echo "5. Exit"
 tput sgr0
 tput cup 11 15
 tput setaf 1
 tput bold
-read -p "Enter your choice (1-4): " CHOICE
+read -p "Enter your choice (1-5): " CHOICE
 if [ $CHOICE -eq 1 ]
 then sudo sh ./InstallSiriServer.sh
 fi
@@ -45,6 +55,15 @@ cd ..
 sudo ./menu.sh
 fi
 if [ $CHOICE -eq 4 ]
+then echo "Starting Server..."
+cd serverfolder/
+cd Eich*
+sudo python siriServer.py
+cd ..
+cd ..
+sudo ./menu.sh
+fi
+if [ $CHOICE -eq 5 ]
 then echo "Goodbye!" && exit
 fi
 if [ $CHOICE -eq 3 ]
