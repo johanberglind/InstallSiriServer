@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$DIR = ""
+DIR = ""
 
 check_Git () {
     echo "Checking git"
@@ -90,7 +90,7 @@ check_wordnik () {
 }
 
 clone () {
-  if [ $DIR = "" ]; then 
+  if [ "$DIR" == "" ]; then 
     echo -e "Where would you like to install SiriServer? (eg.: '/home/')"
     read NEW_DIR
     $DIR = $NEW_DIR
@@ -101,14 +101,17 @@ clone () {
 }
 
 certificate () {
-  if [ $DIR = "" ]; then 
+  if [ "$DIR" == "" ]; then 
     echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
     read NEW_DIR
     $DIR = $NEW_DIR
+  else
+    cd SiriServer/
   fi
   cd gen_certs/
   clear
-  $IPGUESS = `ifconfig |grep "inet addr" |awk '{print $2}' |awk -F: '{print $2}'`
+  IPGUESS = `ifconfig |grep "inet addr" |awk '{print $2}' |awk -F: '{print $2}'`
+  echo $IPGUESS
   echo "Time to generate SSL-certs, what is the IP of the Siriserver (this computer) [possibly $IPGUESS]? [----------90%]"
   read IP
   sudo ./gen_certs.sh $IP
