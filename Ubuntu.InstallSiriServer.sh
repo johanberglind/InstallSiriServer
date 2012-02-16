@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIR = ""
+$DIR = ""
 
 check_Git () {
     echo "Checking git"
@@ -108,7 +108,7 @@ certificate () {
   fi
   cd gen_certs/
   clear
-  IPGUESS = `ifconfig |grep "inet addr" |awk '{print $2}' |awk -F: '{print $2}'`
+  $IPGUESS = `ifconfig |grep "inet addr" |awk '{print $2}' |awk -F: '{print $2}'`
   echo "Time to generate SSL-certs, what is the IP of the Siriserver (this computer) [possibly $IPGUESS]? [----------90%]"
   read IP
   sudo ./gen_certs.sh $IP
@@ -136,9 +136,11 @@ SiriServer_Menu (){
      #####  # #    # #  #####  #####  #    # #    # #####  #    # 
           # # #####  #       # #      #####  #    # #      #####  
     #     # # #   #  # #     # #      #   #   #  #  #      #   #  
-     #####  # #    # #  #####  ###### #    #   ##   ###### #    # "
+     #####  # #    # #  #####  ###### #    #   ##   ###### #    # 
+     
+     "
+
     show_Menu () {
-        echo "Make a choice to see info or install these apps..."
 
         echo "1. Install SiriServer"
         echo "2. Install plugin dependencies"
