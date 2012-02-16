@@ -120,9 +120,22 @@ certificate () {
   clear
 }
 
-pid () {
+update () {
+  if [ "$DIR" == "" ]; then 
+    echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
+    read NEW_DIR
+    DIR=$NEW_DIR
+  fi
+  cd $DIR
   PID=`ps -ef | awk '/siriServer/ { print $2 }'`
-  echo PID
+  if [ "$PID" != "" ]; then 
+    echo "Killing SiriServer..."
+    kill $PID
+  fi
+  echo "Updating ..."
+  git pull
+  clear
+  echo "Update finished."
 }
 
 ### PRESENT MENU ###
@@ -130,21 +143,24 @@ SiriServer_Menu (){
     
     clear
     echo "
-     #####              #####                                     
-    #     # # #####  # #     # ###### #####  #    # ###### #####  
-    #       # #    # # #       #      #    # #    # #      #    # 
-     #####  # #    # #  #####  #####  #    # #    # #####  #    # 
-          # # #####  #       # #      #####  #    # #      #####  
-    #     # # #   #  # #     # #      #   #   #  #  #      #   #  
-     #####  # #    # #  #####  ###### #    #   ##   ###### #    # 
+  ###################################################################
+  |   #####              #####                                      |
+  |  #     # # #####  # #     # ###### #####  #    # ###### #####   |
+  |  #       # #    # # #       #      #    # #    # #      #    #  |
+  |   #####  # #    # #  #####  #####  #    # #    # #####  #    #  |
+  |        # # #####  #       # #      #####  #    # #      #####   |
+  |  #     # # #   #  # #     # #      #   #   #  #  #      #   #   |
+  |   #####  # #    # #  #####  ###### #    #   ##   ###### #    #  |
+  |                                                                 |
+  ############################################# script by gugahoi ###
      
-    by gugahoi "
+     "
 
     show_Menu () {
 
         echo "1. Install SiriServer"
         echo "2. Install plugin dependencies"
-        echo "3. Update SiriServer"
+        echo "3. Update SiriServer (experimental)"
         echo "4. Generate certificates"
         echo 
         echo 
@@ -184,7 +200,7 @@ SiriServer_Menu (){
 
             # Update SiriServer
             3)
-                pid
+                update
                 ;;
 
             # Generate certificate
