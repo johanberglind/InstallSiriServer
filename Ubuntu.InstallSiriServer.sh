@@ -116,7 +116,7 @@ certificate () {
   echo "Certificate generated, now you need to transfer the ca.pem file to your iOS device"
   echo "The easiest way is to email it to yourself and open it on your iOS device"
   echo "The settings page on Spire should now use this url: https://$IP"
-  read -p "Press [ENTER] to continue to the next step when you've installed it"
+  read -p "Press [ENTER] to continue"
   clear
 }
 
@@ -179,6 +179,9 @@ SiriServer_Menu (){
   ############################################# script by gugahoi ###
      
      "
+  if [ "$DIR" != "" ]; then 
+    echo "Current directory is \"$DIR\"\n"
+  fi
 
     show_Menu () {
 
@@ -243,7 +246,6 @@ SiriServer_Menu (){
                   echo "cd $DIR"
                   echo "sudo python siriServer.py"
                 fi
-                read -p "Press [ENTER] to continue"
                 ;;
                 
             # Install plugin dependencies
