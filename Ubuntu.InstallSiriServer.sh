@@ -96,7 +96,7 @@ clone () {
     DIR=$NEW_DIR
   fi
   echo "Cloning SiriServer from Github... "
-  git clone git://github.com/Eichhoernchen/SiriServer.git $DIR
+  sudo git clone git://github.com/Eichhoernchen/SiriServer.git $DIR
   clear
 }
 
