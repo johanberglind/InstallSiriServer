@@ -52,8 +52,11 @@ else
 fi
 clear
 echo "Installing Python-packages [------70%--]"
+echo "Installing biplist"
 sudo easy_install biplist
-sudo easy_install M2Crypto
+read -p "Press [ENTER] to continue"
+echo "Installing M2Crypto"
+sudo apt-get install python-M2Crypto
 clear
 echo "Python installation complete"
 read -p "Press [ENTER] to continue"
