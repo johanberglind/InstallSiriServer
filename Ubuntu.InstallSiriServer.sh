@@ -120,6 +120,21 @@ certificate () {
   clear
 }
 
+startup_script () {
+  if [ "$DIR" == "" ]; then 
+    echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
+    read NEW_DIR
+    DIR=$NEW_DIR
+  fi
+  cd $DIR/startupScripts/
+  echo "Copying script to /etc/init.d/siriserver"
+  sed -i "s_/path/to/siriServer/folder/_$DIR_g" siriserver > siriserver.new
+  sudo mv siriserver.new /etc/init.d/siriserver
+  sudo chmod a+x /etc/init.d/siriserver
+  echo "Updating rc.d"
+  sudo update-rc.d siriserver dafults
+}
+
 edit_conf () {
   if [ "$DIR" == "" ]; then 
     echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
@@ -172,6 +187,7 @@ SiriServer_Menu (){
         echo "3. Update SiriServer (experimental)"
         echo "4. Generate certificates"
         echo "5. Edit API's"
+        echo "6. Install startup script"
         echo 
         echo 
         echo "Q. Quit"
@@ -207,9 +223,27 @@ SiriServer_Menu (){
                   echo "This can be done later by editing the apiKeys.conf file in your siriServer folder"
                   read -p "Press [ENTER] to continue"
                   clear
-                fi
-                
+                fi                
                 certificate
+                echo -e "Would you like to have SiriServer start on boot? [y/n] "
+                read answer
+                if [ "$answer" == "y" ]; then 
+                  startup_script
+                  START=1
+                else
+                  START=0
+                fi
+                echo "You are now finished installing, you should find your installation on $DIR"
+                echo "To use your siriserver you can use the following command(s):"
+                if [ "$START" -eq 1 ]; then
+                  echo "sudo service siriserver start"
+                  echo "sudo service siriserver stop"
+                  echo "sudo service siriserver restart"
+                else
+                  echo "cd $DIR"
+                  echo "sudo python siriServer.py"
+                fi
+                read -p "Press [ENTER] to continue"
                 ;;
                 
             # Install plugin dependencies
@@ -233,6 +267,9 @@ SiriServer_Menu (){
                 edit_conf
                 ;;
 
+            6)
+                startup_script
+                ;;
 
             [Qq]) exit ;;
 
