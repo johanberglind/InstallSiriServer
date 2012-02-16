@@ -91,9 +91,9 @@ check_wordnik () {
 
 clone () {
   if [ "$DIR" == "" ]; then 
-    echo -e "Where would you like to install SiriServer? (eg.: '/home/')"
+    echo -e "Where would you like to install SiriServer? (eg.: '/opt/SiriServer/')"
     read NEW_DIR
-    $DIR = $NEW_DIR
+    DIR=$NEW_DIR
   fi
   echo "Cloning SiriServer from Github... "
   git clone git://github.com/Eichhoernchen/SiriServer.git $DIR
@@ -104,15 +104,12 @@ certificate () {
   if [ "$DIR" == "" ]; then 
     echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
     read NEW_DIR
-    $DIR = $NEW_DIR
-  else
-    cd SiriServer/
+    DIR=$NEW_DIR
   fi
-  cd gen_certs/
+  cd $DIR/gen_certs/
   clear
-  IPGUESS = `ifconfig |grep "inet addr" |awk '{print $2}' |awk -F: '{print $2}'`
-  echo $IPGUESS
-  echo "Time to generate SSL-certs, what is the IP of the Siriserver (this computer) [possibly $IPGUESS]? [----------90%]"
+  IPGUESS=`ifconfig |grep "inet addr" |awk '{print $2}' |awk -F: '{print $2}'`
+  echo "Time to generate SSL-certs, what is the IP of the Siriserver (this computer) [possibly $IPGUESS]?"
   read IP
   sudo ./gen_certs.sh $IP
   clear
@@ -124,7 +121,7 @@ certificate () {
 }
 
 pid () {
-  PID = `ps -ef | awk '/siriServer/ { print $2 }'`
+  PID=`ps -ef | awk '/siriServer/ { print $2 }'`
   echo PID
 }
 
@@ -141,7 +138,7 @@ SiriServer_Menu (){
     #     # # #   #  # #     # #      #   #   #  #  #      #   #  
      #####  # #    # #  #####  ###### #    #   ##   ###### #    # 
      
-     "
+    by gugahoi "
 
     show_Menu () {
 
@@ -173,8 +170,8 @@ SiriServer_Menu (){
                 else
                   echo "Note that when not installing those dependencies, some plugins might not work as expected"
                   read -p "Press [ENTER] to continue"
+                  clear
                 fi
-                clear
                 clone
                 certificate
                 ;;
