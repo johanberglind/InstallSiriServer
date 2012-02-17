@@ -178,7 +178,7 @@ SiriServer_Menu (){
   |  #     # # #   #  # #     # #      #   #   #  #  #      #   #   |
   |   #####  # #    # #  #####  ###### #    #   ##   ###### #    #  |
   |                                                                 |
-  ############################################# script by gugahoi ###
+  ######## Debian/*Buntu version ############## script by gugahoi ###
      
      "
   if [ "$DIR" != "" ]; then 
