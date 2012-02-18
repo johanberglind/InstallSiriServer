@@ -15,8 +15,8 @@ check_libogg () {
     unzip libogg-1.3.0.zip
     cd libogg-1.3.0
     echo "Installing libogg"
-    ./configure
-    make
+    sudo ./configure
+    sudo make
     sudo make install
     cd ..
     clear
@@ -39,8 +39,8 @@ check_libspeex () {
     clear
     # Installing Speex.."
     echo "Installing Speex..."
-    ./configure
-    make
+    sudo ./configure
+    sudo make
     sudo make install
     cd ..
   fi
@@ -67,12 +67,12 @@ check_flac () {
     VERSION=`uname -a | grep "x86_64"`
     if [ -n "$VERSION" ]; then
       echo "64 bit system, using \"--disable-asm-optimizations\"" 
-      ./configure --disable-asm-optimizations
+      sudo ./configure --disable-asm-optimizations
     else
       echo "32 bit system, not using \"--disable-asm-optimizations\""
-      ./configure
+      sudo ./configure
     fi
-    make
+    sudo make
     sudo make install
     cd ..
   fi
@@ -103,9 +103,9 @@ check_OpenSsl () {
     curl http://www.openssl.org/source/openssl-1.0.0g.tar.gz > openssl-1.0.0g.tar.gz
     tar -xf openssl-1.0.0g.tar.gz
     cd openssl-1.0.0g
-    ./config
-    make
-    make test
+    sudo ./config
+    sudo make
+    sudo make test
     sudo make install
     cd ..
     read -p "Press [ENTER] to continue"
