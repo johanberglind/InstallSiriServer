@@ -54,6 +54,7 @@ check_flac () {
   if [ "$(which flac)" != "" ]; then 
     echo "FLAC is already installed, proceeding to next step"
   else 
+    echo "Downloading Flac..."
     cd /tmp/
     curl -L http://sourceforge.net/projects/flac/files/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz/download > flac-1.2.1.tar.gz
     clear
@@ -65,7 +66,7 @@ check_flac () {
     ## Checking wether 64 or 32 bit system to use for flac compilation
     VERSION=`uname -a | grep "x86_64"`
     if [ -n "$VERSION" ]; then
-      echo "64 bit system"
+      echo "64 bit system, using \"--disable-asm-optimizations\"" 
       ./configure --disable-asm-optimizations
     else
       echo "32 bit system, not using \"--disable-asm-optimizations\""
@@ -79,38 +80,16 @@ check_flac () {
   clear
 }
 
-check_Curl () {
-  if [ "$(which curl)" != "" ]; then 
-    echo "Curl is already installed, proceeding"
-  else 
-    echo "Downloading and installing Curl"
-    wget http://curl.haxx.se/download/curl-7.24.0.tar.gz
-    tar -xf curl-7.24.0.tar.gz
-    cd curl-7.24.0
-    ./configure
-    make
-    sudo make install
-    cd ..
-  fi
-  read -p "Press [ENTER] to continue"
-  clear
-}
-
 check_Git () {
   if [ "$(which git)" != "" ]; then 
     echo "Git is already installed, proceeding"
   else
-    echo "Scraping Git's latest stable release version number off the home page"
-    LSR_NUM=$(curl -silent http://git-scm.com/ | sed -n '/id="ver"/ s/.*v\([0-9].*\)<.*/\1/p')
-
-    echo "Downloading & unpacking Git's latest stable release: git-$LSR_NUM"
-    curl http://kernel.org/pub/software/scm/git/git-$LSR_NUM.tar.gz | tar -xz
-    tar xzf git-$LSR_NUM.tar.gz
-    cd git-$LSR_NUM
-    ./configure --prefix=/usr/local
-    make all
-    sudo make install
-    cd ..
+    echo "Downloading git"
+    cd /tmp/
+    curl http://git-osx-installer.googlecode.com/files/git-1.7.8.4-intel-universal-snow-leopard.dmg > git.dmg    
+    hdiutil attach ./git.dmg
+    cd /Volumes/Git*    
+    sudo installer -pkg ./git*.pkg
   fi
   read -p "Press [ENTER] to continue"
   clear
@@ -129,9 +108,9 @@ check_OpenSsl () {
     make test
     sudo make install
     cd ..
+    read -p "Press [ENTER] to continue"
+    clear
   fi
-  read -p "Press [ENTER] to continue"
-  clear
 }
 
 check_Easy () {
@@ -294,7 +273,6 @@ SiriServer_Menu (){
 
             # Install SiriServer
             1)
-                check_Curl
                 check_Git
                 check_OpenSsl
                 check_Easy
