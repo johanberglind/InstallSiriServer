@@ -89,7 +89,7 @@ check_Git () {
     curl http://git-osx-installer.googlecode.com/files/git-1.7.8.4-intel-universal-snow-leopard.dmg > git.dmg    
     hdiutil attach ./git.dmg
     cd /Volumes/Git*    
-    sudo installer -pkg ./git*.pkg
+    sudo installer -pkg ./git*.pkg -target /
   fi
   read -p "Press [ENTER] to continue"
   clear
