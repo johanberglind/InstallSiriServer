@@ -4,8 +4,6 @@ DIR=""
 
 check_libogg () {
   # Checks for libogg package and if it's already installed scripts moves on to libspeex
-  cd /tmp/
-  echo "Checking Libogg"
   if [ -f /usr/local/lib/libogg.a ]; then 
     echo "Libogg is already installed, proceeding to next step"
   else 
@@ -27,7 +25,6 @@ check_libogg () {
 
 check_libspeex () {
   # Checks for libspeex and if it's already installed the scripts moves on to checking for flac
-  echo "Checking Libspeex"
   if [ -f /usr/local/lib/libspeex.a ]; then 
     echo "Libspeex is already installed, proceeding to next step"
   else 
@@ -53,7 +50,6 @@ check_libspeex () {
 
 check_flac () {
   # Checks for FLAC and if it's already installed the scripts moves on
-  echo "Checking for Flac..."
   if [ "$(which flac)" != "" ]; then 
     echo "FLAC is already installed, proceeding to next step"
   else 
@@ -115,13 +111,11 @@ check_OpenSsl () {
     sudo make test
     sudo make install
     cd ..
-    read -p "Press [ENTER] to continue"
     clear
   fi
 }
 
 check_Easy () {
-  echo "Installing easy_install"
   if [ "$(which easy_install)" != "" ]; then 
     echo "easy_install is installed, proceeding"
   else 
@@ -178,6 +172,7 @@ clone () {
     echo -e "Note: you may only use absolute paths. eg.:'/Users/$(whoami)/siriServer/'"
     read NEW_DIR
     DIR=$NEW_DIR
+    clear
   fi
   echo '#####################################'
   echo "# Cloning SiriServer from Github... #"
@@ -192,6 +187,7 @@ certificate () {
     echo -e "Note: you may only use absolute paths. eg.:'/Users/$(whoami)/siriServer/'"
     read NEW_DIR
     DIR=$NEW_DIR
+    clear
   fi
   cd $DIR/gen_certs/
   clear
@@ -213,9 +209,10 @@ startup_script () {
     echo -e "Note: you may only use absolute paths. eg.:'/Users/$(whoami)/siriServer/'"
     read NEW_DIR
     DIR=$NEW_DIR
+    clear
   fi
   cd $DIR/startupScripts/
-  echo "Copying script to /etc/init.d/siriserver"
+  echo "Copying script to /Library/LaunchDaemons/net.siriserver.plist"
   sudo cp mac.osx.siriserver.plist mac.osx.siriserver.plist.original
   sudo sed -i.old "s/\/Users\/home\/SiriServer/$(echo $DIR | sed -e 's/\//\\\//g')/" mac.osx.siriserver.plist
   sudo sed -i.old '/\/\*/,/\/\*/d' mac.osx.siriserver.plist
@@ -252,6 +249,13 @@ update () {
   echo "Update finished."
 }
 
+change_dir () {
+  echo -e "Where is SiriServer installed?"
+  echo -e "Note: you may only use absolute paths. eg.:'/Users/$(whoami)/siriServer/'"
+  read NEW_DIR
+  DIR=$NEW_DIR
+}
+
 ### PRESENT MENU ###
 SiriServer_Menu (){
     
@@ -282,6 +286,7 @@ SiriServer_Menu (){
         echo "4. Generate certificates"
         echo "5. Edit API's"
         echo "6. Install startup script"
+        echo "7. Change directory"
         echo 
         echo 
         echo "Q. Quit"
@@ -325,20 +330,11 @@ SiriServer_Menu (){
                 read answer
                 if [ "$answer" == "y" ]; then 
                   startup_script
-                  START=1
-                else
-                  START=0
                 fi
                 echo "You are now finished installing, you should find your installation on $DIR"
                 echo "To use your siriserver you can use the following command(s):"
-                if [ "$START" -eq 1 ]; then
-                  echo "sudo service siriserver start"
-                  echo "sudo service siriserver stop"
-                  echo "sudo service siriserver restart"
-                else
-                  echo "cd $DIR"
-                  echo "sudo python siriServer.py"
-                fi
+                echo "cd $DIR"
+                echo "sudo python siriServer.py"
                 ;;
                 
             # Install plugin dependencies
@@ -365,6 +361,10 @@ SiriServer_Menu (){
             # Install startup script
             6)
                 startup_script
+                ;;
+                
+            7)
+                change_dir
                 ;;
 
             [Qq]) exit ;;
