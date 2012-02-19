@@ -216,7 +216,9 @@ startup_script () {
   fi
   cd $DIR/startupScripts/
   echo "Copying script to /etc/init.d/siriserver"
-  sudo sed -i.old "s/\/Users\/home\/SiriServer\/$(echo $DIR | sed -e 's/\//\\\//g')/" siriserver
+  sudo cp mac.osx.siriserver.plist mac.osx.siriserver.plist.original
+  sudo sed -i.old "s/\/Users\/home\/SiriServer/$(echo $DIR | sed -e 's/\//\\\//g')/" mac.osx.siriserver.plist
+  sudo sed -i.old '/\/\*/,/\/\*/d' mac.osx.siriserver.plist
   sudo mv mac.osx.siriserver.plist /Library/LaunchDaemons/net.siriserver.plist
   sudo launchctl load /Library/LaunchDaemons/net.siriserver.plist
 }
