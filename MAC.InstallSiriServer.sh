@@ -9,7 +9,9 @@ check_libogg () {
   if [ -f /usr/local/lib/libogg.a ]; then 
     echo "Libogg is already installed, proceeding to next step"
   else 
-    echo "Not installed, downloading libogg"
+    echo '#########################'
+    echo "# Downloading libogg ...# "
+    echo '#########################'
     cd /tmp/
     curl http://downloads.xiph.org/releases/ogg/libogg-1.3.0.zip > libogg-1.3.0.zip
     unzip libogg-1.3.0.zip
@@ -29,7 +31,9 @@ check_libspeex () {
   if [ -f /usr/local/lib/libspeex.a ]; then 
     echo "Libspeex is already installed, proceeding to next step"
   else 
-    echo "Not installed, downloading Libspeex"
+    echo '##########################'
+    echo "# Downloading libspeex...#"
+    echo '##########################'
     cd /tmp/
     curl http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz > speex-1.2rc1.tar.gz
     clear
@@ -43,9 +47,8 @@ check_libspeex () {
     sudo make
     sudo make install
     cd ..
+    clear
   fi
-  read -p "Press [ENTER] to continue"
-  clear
 }
 
 check_flac () {
@@ -54,7 +57,9 @@ check_flac () {
   if [ "$(which flac)" != "" ]; then 
     echo "FLAC is already installed, proceeding to next step"
   else 
-    echo "Downloading Flac..."
+    echo '#########################'
+    echo "# Downloading Flac...   #"
+    echo '#########################'
     cd /tmp/
     curl -L http://sourceforge.net/projects/flac/files/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz/download > flac-1.2.1.tar.gz
     clear
@@ -75,31 +80,33 @@ check_flac () {
     sudo make
     sudo make install
     cd ..
+    clear
   fi
-  read -p "Press [ENTER] to continue"
-  clear
 }
 
 check_Git () {
   if [ "$(which git)" != "" ]; then 
     echo "Git is already installed, proceeding"
   else
-    echo "Downloading git"
+    echo '#########################'
+    echo "# Downloading git...    #"
+    echo '#########################'
     cd /tmp/
     curl http://git-osx-installer.googlecode.com/files/git-1.7.8.4-intel-universal-snow-leopard.dmg > git.dmg    
     hdiutil attach ./git.dmg
     cd /Volumes/Git*    
     sudo installer -pkg ./git*.pkg -target /
+    clear
   fi
-  read -p "Press [ENTER] to continue"
-  clear
 }
 
 check_OpenSsl () {
   if [ "$(which openssl)" != "" ]; then 
     echo "OpenSSL is already installed, proceeding"
   else 
-    echo "Downloading and installing OpenSSL"
+    echo '#########################'
+    echo "# Downloading OpenSSL...# "
+    echo '#########################'
     curl http://www.openssl.org/source/openssl-1.0.0g.tar.gz > openssl-1.0.0g.tar.gz
     tar -xf openssl-1.0.0g.tar.gz
     cd openssl-1.0.0g
@@ -121,8 +128,10 @@ check_Easy () {
     PYTHON=`(python -V 2>&1)`
     PYTHON=${PYTHON##* }
     PYTHON=${PYTHON%.*}
+    echo '############################'
+    echo "# Downloading easy_install #"
+    echo '############################'
     echo "Using $PYTHON as your python version"
-    echo "Downloading and installing easy_install"
     curl http://pypi.python.org/packages/$PYTHON/s/setuptools/setuptools-0.6c11-py$PYTHON.egg#md5=2baeac6e13d414a9d28e7ba5b5a596de > setuptools-0.6c11-py$PYTHON.egg
     sh setuptools-0.6c11-py$PYTHON.egg
     clear
@@ -130,26 +139,34 @@ check_Easy () {
 }
 
 check_biplist () {
-    echo "Installing biplist"
+    echo '########################'
+    echo "# Installing biplist   #"
+    echo '########################'
     sudo easy_install biplist
     clear
 }
 
 check_M2Crypto () {
-    echo "Installing M2Crypto"
+    echo '########################'
+    echo "# Installing M2Crypto  #"
+    echo '########################'
     sudo easy_install M2Crypto
     clear
 }
 
 check_jsonrpclib () {
-    echo "Installing jsonrpclib ... "
+    echo '#############################'
+    echo "# Installing jsonrpclib ... #"
+    echo '#############################'
     sudo easy_install jsonrpclib
     wait
     clear
 }
 
 check_wordnik () {
-    echo "Installing wordnik ... "
+    echo '###########################'
+    echo "# Installing wordnik ...  #"
+    echo '###########################'
     sudo easy_install wordnik
     wait
     clear
@@ -162,7 +179,9 @@ clone () {
     read NEW_DIR
     DIR=$NEW_DIR
   fi
-  echo "Cloning SiriServer from Github... "
+  echo '#####################################'
+  echo "# Cloning SiriServer from Github... #"
+  echo '#####################################'
   sudo git clone git://github.com/Eichhoernchen/SiriServer.git $DIR
   clear
 }
@@ -197,11 +216,9 @@ startup_script () {
   fi
   cd $DIR/startupScripts/
   echo "Copying script to /etc/init.d/siriserver"
-  sudo sed -i.old "s/\/path\/to\/siriServer\/folder\//$(echo $DIR | sed -e 's/\//\\\//g')/" siriserver
-  sudo mv siriserver /etc/init.d/siriserver
-  sudo chmod a+x /etc/init.d/siriserver
-  echo "Updating rc.d"
-  sudo update-rc.d siriserver defaults
+  sudo sed -i.old "s/\/Users\/home\/SiriServer\/$(echo $DIR | sed -e 's/\//\\\//g')/" siriserver
+  sudo mv mac.osx.siriserver.plist /Library/LaunchDaemons/net.siriserver.plist
+  sudo launchctl load /Library/LaunchDaemons/net.siriserver.plist
 }
 
 edit_conf () {
@@ -228,7 +245,7 @@ update () {
     sudo kill $PID
   fi
   echo "Updating ..."
-  git pull
+  sudo git pull
   clear
   echo "Update finished."
 }
@@ -287,7 +304,7 @@ SiriServer_Menu (){
                   check_wordnik
                   check_jsonrpclib
                 else
-                  echo "Note that when not installing those dependencies, some plugins might not work as expected"
+                  echo "Note that when not installing those dependencies, some plugins might not work as expected."
                   read -p "Press [ENTER] to continue"
                   clear
                 fi
@@ -297,7 +314,7 @@ SiriServer_Menu (){
                 if [ "$answer" == "y" ]; then 
                   edit_conf
                 else
-                  echo "This can be done later by editing the apiKeys.conf file in your siriServer folder"
+                  echo "This can be done later by editing the apiKeys.conf file in your siriServer folder."
                   read -p "Press [ENTER] to continue"
                   clear
                 fi                
@@ -342,7 +359,8 @@ SiriServer_Menu (){
             5)
                 edit_conf
                 ;;
-
+            
+            # Install startup script
             6)
                 startup_script
                 ;;
