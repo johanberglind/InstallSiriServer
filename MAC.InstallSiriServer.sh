@@ -256,6 +256,47 @@ change_dir () {
   DIR=$NEW_DIR
 }
 
+install () {
+  check_Git
+  check_OpenSsl
+  check_Easy
+  check_libogg
+  check_libspeex
+  check_flac
+  check_biplist
+  check_M2Crypto
+  echo -e "Would you like to install all the plugin dependencies? [y/n] "
+  read answer
+  if [ "$answer" == "y" ]; then 
+    check_wordnik
+    check_jsonrpclib
+  else
+    echo "Note that when not installing those dependencies, some plugins might not work as expected."
+    read -p "Press [ENTER] to continue"
+    clear
+  fi
+  clone
+  echo -e "Would you like to put your API keys now? [y/n] "
+  read answer
+  if [ "$answer" == "y" ]; then 
+    edit_conf
+  else
+    echo "This can be done later by editing the apiKeys.conf file in your siriServer folder."
+    read -p "Press [ENTER] to continue"
+    clear
+  fi                
+  certificate
+  echo -e "Would you like to have SiriServer start on boot? [y/n] "
+  read answer
+  if [ "$answer" == "y" ]; then 
+    startup_script
+  fi
+  echo "You are now finished installing, you should find your installation on $DIR"
+  echo "To use your siriserver you can use the following command(s):"
+  echo "cd $DIR"
+  echo "sudo python siriServer.py"
+}
+
 ### PRESENT MENU ###
 SiriServer_Menu (){
     
@@ -297,46 +338,8 @@ SiriServer_Menu (){
 
             # Install SiriServer
             1)
-                check_Git
-                check_OpenSsl
-                check_Easy
-                check_libogg
-                check_libspeex
-                check_flac
-                check_biplist
-                check_M2Crypto
-                echo -e "Would you like to install all the plugin dependencies? [y/n] "
-                read answer
-                if [ "$answer" == "y" ]; then 
-                  check_wordnik
-                  check_jsonrpclib
-                else
-                  echo "Note that when not installing those dependencies, some plugins might not work as expected."
-                  read -p "Press [ENTER] to continue"
-                  clear
-                fi
-                clone
-                echo -e "Would you like to put your API keys now? [y/n] "
-                read answer
-                if [ "$answer" == "y" ]; then 
-                  edit_conf
-                else
-                  echo "This can be done later by editing the apiKeys.conf file in your siriServer folder."
-                  read -p "Press [ENTER] to continue"
-                  clear
-                fi                
-                certificate
-                echo -e "Would you like to have SiriServer start on boot? [y/n] "
-                read answer
-                if [ "$answer" == "y" ]; then 
-                  startup_script
-                fi
-                echo "You are now finished installing, you should find your installation on $DIR"
-                echo "To use your siriserver you can use the following command(s):"
-                echo "cd $DIR"
-                echo "sudo python siriServer.py"
+                install
                 ;;
-                
             # Install plugin dependencies
             2)
                 check_wordnik
@@ -362,7 +365,8 @@ SiriServer_Menu (){
             6)
                 startup_script
                 ;;
-                
+            
+            # Change working directory    
             7)
                 change_dir
                 ;;
@@ -383,4 +387,42 @@ SiriServer_Menu (){
     show_Menu
 }
 
-SiriServer_Menu
+if [ -z "$1" ];
+then
+  SiriServer_Menu
+else
+  case "$1" in
+    # Install SiriServer
+    --install) 
+      echo "Initiating install process..."
+        install
+        ;;
+    --dependencies)
+        check_wordnik
+        check_jsonrpclib
+        ;;
+    --update)
+        update
+        ;;
+    --cert)
+        certificate
+        ;;
+    --conf)
+        edit_conf
+        ;;
+    --startup)
+        startup_script
+        ;;
+    *)
+      echo "Command not supported: $1"
+      echo "Only the following commands have been implemented:"
+      echo "  --install"
+      echo "  --dependencies"
+      echo "  --update"
+      echo "  --cert"
+      echo "  --conf"
+      echo "  --startup"
+      ;;
+  esac
+  exit
+fi
