@@ -391,6 +391,10 @@ if [ -z "$1" ];
 then
   SiriServer_Menu
 else
+  if [ -n "$2" ]; then
+    echo "Using $2 as the directory."
+    DIR=$2
+  fi
   case "$1" in
     # Install SiriServer
     --install) 
