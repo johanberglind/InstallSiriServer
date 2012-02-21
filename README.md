@@ -5,6 +5,13 @@ You need a C compiler installed! On most Linux Distros this comes out of the box
 On Mac OS X you can either install Xcode or install this:
 https://github.com/kennethreitz/osx-gcc-installer
 
+## MAC OS X USERS
+
+If you want a much easier way of installing the SiriServer aswell as updating and configuring. We've just released
+a Mac OSX app that simplifies everything and packages it with a neat GUI. Download it from the project page. Or on:
+
+http://dl.dropbox.com/u/241699/Release/InstallSiri.dmg
+
 Everything else the script handles. Good luck
 
 ## INSTRUCTIONS
