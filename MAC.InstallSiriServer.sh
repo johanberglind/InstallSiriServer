@@ -265,16 +265,8 @@ install () {
   check_flac
   check_biplist
   check_M2Crypto
-  echo -e "Would you like to install all the plugin dependencies? [y/n] "
-  read answer
-  if [ "$answer" == "y" ]; then 
-    check_wordnik
-    check_jsonrpclib
-  else
-    echo "Note that when not installing those dependencies, some plugins might not work as expected."
-    read -p "Press [ENTER] to continue"
-    clear
-  fi
+  check_wordnik
+  check_jsonrpclib
   clone
   echo -e "Would you like to put your API keys now? [y/n] "
   read answer
