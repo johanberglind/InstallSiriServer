@@ -196,7 +196,10 @@ certificate () {
   read IP
   sudo ./gen_certs.sh $IP
   clear
-  echo "Certificate generated, now you need to transfer the ca.pem file to your iOS device"
+  cd ..
+  user=$(who |awk {'print $1'} |awk 'NR == 1')
+  cp ca.pem /Users/$user/Desktop/
+  echo "Certificate generated, the ca.pem file is on your Desktop. Now you need to transfer the ca.pem file to your iOS device"
   echo "The easiest way is to email it to yourself and open it on your iOS device"
   echo "The settings page on Spire should now use this url: https://$IP"
   read -p "Press [ENTER] to continue"
