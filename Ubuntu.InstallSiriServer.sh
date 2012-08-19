@@ -98,13 +98,13 @@ clone () {
     DIR=$NEW_DIR
   fi
   echo "Cloning SiriServer from Github... "
-  sudo git clone git://github.com/Eichhoernchen/SiriServer.git $DIR
+  sudo git clone git://github.com/waynesg/SiriServer.git $DIR
   clear
 }
 
 certificate () {
   if [ "$DIR" == "" ]; then 
-    echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
+    echo -e "Where is SiriServer installed? (eg.: '/root/SiriServer/')"
     read NEW_DIR
     DIR=$NEW_DIR
   fi
@@ -124,7 +124,7 @@ certificate () {
 
 startup_script () {
   if [ "$DIR" == "" ]; then 
-    echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
+    echo -e "Where is SiriServer installed? (eg.: '/root/SiriServer/')"
     read NEW_DIR
     DIR=$NEW_DIR
   fi
@@ -139,7 +139,7 @@ startup_script () {
 
 edit_conf () {
   if [ "$DIR" == "" ]; then 
-    echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
+    echo -e "Where is SiriServer installed? (eg.: '/root/SiriServer/')"
     read NEW_DIR
     DIR=$NEW_DIR
   fi
@@ -148,7 +148,7 @@ edit_conf () {
 
 update () {
   if [ "$DIR" == "" ]; then 
-    echo -e "Where is SiriServer installed? (eg.: '/opt/SiriServer/')"
+    echo -e "Where is SiriServer installed? (eg.: '/root/SiriServer/')"
     read NEW_DIR
     DIR=$NEW_DIR
   fi
@@ -178,7 +178,7 @@ SiriServer_Menu (){
   |  #     # # #   #  # #     # #      #   #   #  #  #      #   #   |
   |   #####  # #    # #  #####  ###### #    #   ##   ###### #    #  |
   |                                                                 |
-  ######## Debian/*Buntu version ############## script by gugahoi ###
+  ######## Debian/*Buntu version ############## script by waynesg ###
      
      "
   if [ "$DIR" != "" ]; then 
