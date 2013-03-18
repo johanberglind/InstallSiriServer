@@ -10,7 +10,7 @@ https://github.com/kennethreitz/osx-gcc-installer
 If you want a much easier way of installing the SiriServer aswell as updating and configuring. We've just released
 a Mac OSX app that simplifies everything and packages it with a neat GUI. Download it from the project page. Or on:
 
-http://dl.dropbox.com/u/241699/Release/InstallSiri.dmg
+https://github.com/johanberglind/InstallSiriServer/raw/master/InstallSiri.dmg
 
 Everything else the script handles. Good luck
 
